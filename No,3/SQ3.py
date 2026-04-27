@@ -45,8 +45,8 @@ plt.title("Contour Visualization")
 plt.savefig(os.path.join(output_dir, "contour.png"), dpi=300)
 plt.close()
 
-# 5. Thresholding
-tau = np.percentile(D_norm, 90)
+# 5. Thresholding (Localization)
+tau = np.percentile(D_norm, 98)
 
 mask = (D_norm > tau).astype(np.uint8) * 255
 
