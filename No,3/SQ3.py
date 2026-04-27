@@ -19,7 +19,7 @@ D_norm = (D - D.min()) / (D.max() - D.min() + 1e-8)
 
 # Save raw difference
 cv2.imwrite(
-    os.path.join(output_dir, "01_difference_raw.png"),
+    os.path.join(output_dir, "difference_raw.png"),
     (D_norm * 255).astype(np.uint8)
 )
 
@@ -27,41 +27,41 @@ cv2.imwrite(
 plt.imshow(D_norm, cmap='turbo')
 plt.colorbar()
 plt.title("Difference Heatmap")
-plt.savefig(os.path.join(output_dir, "02_heatmap.png"), dpi=300)
+plt.savefig(os.path.join(output_dir, "heatmap.png"), dpi=300)
 plt.close()
 
 # 3. Smoothed Difference
 D_smooth = cv2.GaussianBlur(D_norm, (5, 5), 0)
 
 cv2.imwrite(
-    os.path.join(output_dir, "03_smooth.png"),
+    os.path.join(output_dir, "smooth.png"),
     (D_smooth * 255).astype(np.uint8)
 )
 
-# 4. Gradient Magnitude
-gy, gx = np.gradient(D_norm)
-grad_mag = np.sqrt(gx**2 + gy**2)
-
-plt.imshow(grad_mag, cmap='gray')
-plt.title("Gradient Magnitude")
-plt.savefig(os.path.join(output_dir, "04_gradient.png"), dpi=300)
-plt.close()
-
-# 5. Contour Visualization
+# 4. Contour Visualization
 plt.imshow(D_norm, cmap='turbo')
 plt.contour(D_norm, levels=5, colors='white')
 plt.title("Contour Visualization")
-plt.savefig(os.path.join(output_dir, "05_contour.png"), dpi=300)
+plt.savefig(os.path.join(output_dir, "contour.png"), dpi=300)
 plt.close()
 
-# 6. Thresholding (Localization)
+# 5. Thresholding (Localization)
 tau = np.percentile(D_norm, 90)
 
 mask = (D_norm > tau).astype(np.uint8) * 255
 
 cv2.imwrite(
-    os.path.join(output_dir, "06_threshold.png"),
+    os.path.join(output_dir, "threshold.png"),
     mask
 )
+
+# 6. Gradient Magnitude
+gy, gx = np.gradient(D_norm)
+grad_mag = np.sqrt(gx**2 + gy**2)
+
+plt.imshow(grad_mag, cmap='gray')
+plt.title("Gradient Magnitude")
+plt.savefig(os.path.join(output_dir, "gradient.png"), dpi=300)
+plt.close()
 
 print("All results saved in:", output_dir)
