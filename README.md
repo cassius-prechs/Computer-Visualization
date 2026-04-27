@@ -1,2 +1,2 @@
 # Computer-Visualization
-Assignments for Fujishiro's class
+Assignments for Prof.Fujishiro's class
